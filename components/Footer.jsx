@@ -3,9 +3,8 @@ import { Film } from "lucide-react";
 import Image from "next/image";
 
 const navLinks = [
-    { label: "Movies", href: "/movies" },
-    { label: "TV Shows", href: "/tv" },
-    { label: "Trending", href: "/trending" },
+    { label: "Genres", href: "/genres" },
+    { label: "Trending", href: "/" },
     { label: "Watchlist", href: "/watchlist" },
 ];
 
