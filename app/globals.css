@@ -1,26 +1,610 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-ink: #0B0D14;
+  --color-surface: #151827;
+  --color-surface2: #1D2133;
+  --color-paper: #ECE8DE;
+  --color-muted: #8890A6;
+  --color-marquee: #E8B23D;
+  --color-spotlight: #FF6B4A;
+  --color-line: rgba(236,232,222,0.09);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --animate-border-spin: border-spin 6s linear infinite;
+}
+
+@theme {
+  --breakpoint-xs: 30rem; /* 480px */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ring-spin {
+    animation: none;
   }
 }
 
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-border-spin {
+    animation: none;
+  }
+}
+
+:root {
+  --ink: #0b0d14;
+  --surface: #151827;
+  --surface-2: #1d2133;
+  --paper: #ece8de;
+  --muted: oklch(0.97 0 0);
+  --marquee: #e8b23d;
+  --spotlight: #ff6b4a;
+  --line: rgba(236, 232, 222, 0.09);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Signature: film-strip sprocket bar ---- */
+.filmstrip {
+  height: 16px;
+  background: #05060a;
+  background-image: radial-gradient(circle at center, var(--ink) 3.4px, transparent 3.6px);
+  background-size: 24px 16px;
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* ---- Header ---- */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-display), sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--spotlight);
+  box-shadow: 0 0 10px var(--spotlight);
+}
+
+.main-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.main-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--marquee);
+  border-color: var(--marquee);
+}
+
+.site-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  min-height: 60vh;
+}
+
+/* 🔥 REMOVED: @media (min-width: 768px) { .site-main { padding-left: 280px; } }
+   This was pushing all content right and breaking the layout!
+   Lanyard is an overlay — it sits in the left margin without pushing content. */
+
+/* ---- Typography ---- */
+h1 {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 28px;
+  color: var(--paper);
+}
+
+h2,
+h3 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+h3 {
+  font-size: 20px;
+  margin: 32px 0 14px;
+  color: var(--marquee);
+}
+
+p {
+  color: var(--muted);
+}
+
+a {
+  color: var(--marquee);
+}
+
+/* ---- Links reset for card wrappers ---- */
+main a {
+  text-decoration: none;
+}
+
+/* ---- Movie grid + card ---- */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 22px;
+}
+
+.movie-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--marquee);
+  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--marquee);
+}
+
+.movie-card .poster-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: var(--surface-2);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-card .card-body {
+  padding: 12px 14px 16px;
+}
+
+.movie-card .movie-title {
+  color: var(--paper);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: var(--marquee);
+}
+
+.rating-badge::before {
+  content: "★";
+  font-size: 11px;
+}
+
+/* ---- Buttons + inputs ---- */
+button {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--marquee);
+  color: var(--ink);
+  border: none;
+  padding: 11px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+button:hover {
+  background: #f4c357;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--spotlight);
+  outline-offset: 3px;
+}
+
+input[type="text"] {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 420px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--marquee);
+}
+
+/* ---- Lists (genres, cast) ---- */
+main ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.genre-list li a {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.genre-list li a:hover {
+  border-color: var(--marquee);
+  color: var(--marquee);
+}
+
+.cast-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--paper);
+  font-size: 14.5px;
+}
+
+/* ---- Empty / loading / error states ---- */
+.empty-state,
+.status-text {
+  font-family: var(--font-mono), monospace;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+.error-box {
+  border: 1px solid var(--spotlight);
+  background: rgba(255, 107, 74, 0.08);
+  padding: 24px;
+  border-radius: 6px;
+}
+
+.error-box h2 {
+  color: var(--spotlight);
+  font-size: 22px;
+  margin-top: 0;
+}
+
+.error-box button {
+  margin-top: 12px;
+}
+
+/* ---- Back link ---- */
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.back-link:hover {
+  color: var(--marquee);
+}
+
+.trailer-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.trailer-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.screenshot-grid a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.screenshot-grid a:hover {
+  border-color: var(--marquee);
+  transform: scale(1.02);
+}
+
+.screenshot-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Scoped reset — sirf SearchModal ke andar ke buttons ke liye,
+   taake global button styling override na ho */
+.search-modal-glass button {
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 0;
+  border-radius: inherit;
+}
+
+/* Scoped reset — sirf movie-card watchlist heart button ke liye,
+   taake global button{} reset (yellow bg/padding/radius) isay override na kre */
+.card-watchlist-btn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.15s ease, opacity 0.2s ease,
+    translate 0.2s ease;
+}
+
+.card-watchlist-btn:hover,
+.card-watchlist-btn.is-saved {
+  background: rgba(244, 63, 94, 0.28);
+  border-color: rgba(244, 63, 94, 0.55);
+  box-shadow: 0 4px 14px -2px rgba(244, 63, 94, 0.45);
+}
+
+.card-watchlist-btn:active {
+  transform: scale(0.9);
+}
+
+/* Desktop: reveal on card hover, mobile: always visible */
+@media (min-width: 640px) {
+  .card-watchlist-btn {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  .group:hover .card-watchlist-btn,
+  .card-watchlist-btn.is-saved {
+    opacity: 1;
+    translate: 0 0;
+  }
 }
