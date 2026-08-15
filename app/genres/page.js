@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getBaseUrl } from "@/lib/utils";
 
 async function getGenres() {
-  const res = await fetch("http://localhost:3000/api/genres", {
+  const res = await fetch(`${getBaseUrl()}/api/genres`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error("Failed to load genres");

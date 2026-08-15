@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import MovieGridClient from "@/components/MovieGridClient";
+import { getBaseUrl } from "@/lib/utils";
 
 async function getGenreMovies(genreId) {
-  const res = await fetch(`http://localhost:3000/api/movies/genre/${genreId}`, {
+  const res = await fetch(`${getBaseUrl()}/api/movies/genre/${genreId}`, {
     cache: "no-store",
   });
   if (!res.ok) {

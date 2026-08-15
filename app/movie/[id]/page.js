@@ -5,9 +5,10 @@ import MovieHero from "@/components/MovieHero";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ElectricBorder from "@/components/ui/ElectricBorder";
+import { getBaseUrl } from "@/lib/utils";
 
 async function getMovie(id) {
-  const res = await fetch(`http://localhost:3000/api/movies/${id}`, {
+  const res = await fetch(`${getBaseUrl()}/api/movies/${id}`, {
     cache: "no-store",
   });
 

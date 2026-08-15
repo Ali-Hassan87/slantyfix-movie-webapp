@@ -2,23 +2,24 @@ import RotatingCards from "@/components/ui/RotatingCards";
 import LatestMoviesSection from "@/components/LatestMoviesSection";
 import PopularRow from "@/components/PopularRow";
 // import ElectricBorder from "@/components/ui/ElectricBorder";
+import { getBaseUrl } from "@/lib/utils";
 
 async function getTrendingMovies() {
-  const res = await fetch("http://localhost:3000/api/movies/trending", {
+  const res = await fetch(`${getBaseUrl()}/api/movies/trending`, {
     cache: "no-store",
   });
   return res.json();
 }
 
 async function getLatestMovies() {
-  const res = await fetch("http://localhost:3000/api/movies/latest?page=1", {
+  const res = await fetch(`${getBaseUrl()}/api/movies/latest?page=1`, {
     cache: "no-store",
   });
   return res.json();
 }
 
 async function getPopularMovies() {
-  const res = await fetch("http://localhost:3000/api/movies/popular", {
+  const res = await fetch(`${getBaseUrl()}/api/movies/popular`, {
     cache: "no-store",
   });
   return res.json();
