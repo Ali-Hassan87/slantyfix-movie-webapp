@@ -39,7 +39,17 @@ export default async function HomePage() {
 
   return (
     <div>
-      <RotatingCards movies={trending} />
+      {/* overflow-x-hidden here because RotatingCards uses a 3D
+          perspective + rotateY ring — on narrow mobile viewports the
+          off-screen cards in that ring can push past the edge and
+          trigger a horizontal scrollbar on the whole page. Everything
+          else in this file is just data-fetching/orchestration, so
+          there's nothing else here to make "more responsive" — the
+          actual mobile layout lives inside LatestMoviesSection and
+          PopularRow, which weren't shared. */}
+      <div className="overflow-x-hidden">
+        <RotatingCards movies={trending} />
+      </div>
 
       <LatestMoviesSection
         initialMovies={latest}

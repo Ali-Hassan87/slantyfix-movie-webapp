@@ -148,10 +148,25 @@ export default function Navbar() {
         className={`sticky top-0 z-50 transition-colors duration-300 ${scrolled ? "bg-ink/30 backdrop-blur-md" : "bg-transparent"
           }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 no-underline shrink-0">
+        {/*
+          Root cause of the mobile clipping bug: the logo Link had `shrink-0`
+          and the brand text had no truncation/width cap. On narrow screens
+          logo width + gooey-nav width > viewport width, and since nothing
+          was allowed to shrink or truncate, the flex row overflowed and the
+          right edge of "Slantyfix" got pushed past the visible frame.
+
+          Fix: logo container is allowed to shrink (`min-w-0 flex-1`) and the
+          text itself truncates with an ellipsis instead of overflowing, the
+          dot + image scale down on the smallest screens, and GooeyNav is
+          pinned with `shrink-0` so it never gets squeezed by the logo.
+        */}
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 sm:gap-2.5 no-underline min-w-0 flex-1 sm:flex-none"
+          >
             <motion.span
-              className="w-2.5 h-2.5 rounded-full shrink-0"
+              className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shrink-0"
               animate={{
                 boxShadow: [
                   "0 0 6px rgba(255,107,74,0.5)",
@@ -166,25 +181,27 @@ export default function Navbar() {
               alt=""
               width={42}
               height={42}
-              className="object-contain rounded-full shadow-[0_0_8px_rgba(255,220,0,0.9),0_0_18px_rgba(255,193,7,0.8),0_0_32px_rgba(255,70,0,0.75),0_0_55px_rgba(220,0,0,0.55)]"
+              className="object-contain rounded-full shrink-0 w-8 h-8 sm:w-10.5 sm:h-10.5 shadow-[0_0_8px_rgba(255,220,0,0.9),0_0_18px_rgba(255,193,7,0.8),0_0_32px_rgba(255,70,0,0.75),0_0_55px_rgba(220,0,0,0.55)]"
             />
-            <span className="font-display text-lg sm:text-2xl tracking-wide text-paper whitespace-nowrap [text-shadow:0_0_6px_rgba(255,193,7,0.95),0_0_14px_rgba(255,193,7,0.85),0_0_28px_rgba(255,174,0,0.7),0_0_50px_rgba(255,140,0,0.5)]">
+            <span className="font-display text-base sm:text-2xl tracking-wide text-paper truncate min-w-0 [text-shadow:0_0_6px_rgba(255,193,7,0.95),0_0_14px_rgba(255,193,7,0.85),0_0_28px_rgba(255,174,0,0.7),0_0_50px_rgba(255,140,0,0.5)]">
               Slantyfix
             </span>
           </Link>
 
-          <GooeyNav
-            items={gooeyItems}
-            activeIndex={activeIndex}
-            onChange={handleNavChange}
-            particleCount={14}
-            particleDistances={[70, 10]}
-            particleR={90}
-            animationTime={550}
-            timeVariance={250}
-            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-            renderItem={renderNavItem}
-          />
+          <div className="shrink-0">
+            <GooeyNav
+              items={gooeyItems}
+              activeIndex={activeIndex}
+              onChange={handleNavChange}
+              particleCount={14}
+              particleDistances={[70, 10]}
+              particleR={90}
+              animationTime={550}
+              timeVariance={250}
+              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+              renderItem={renderNavItem}
+            />
+          </div>
         </div>
       </header>
 

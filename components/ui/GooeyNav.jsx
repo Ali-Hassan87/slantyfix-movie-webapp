@@ -16,6 +16,22 @@ import { useRef, useEffect, useState, useCallback } from 'react';
  * - Perf: heavy per-render closures wrapped in useCallback, particle burst
  *   respects prefers-reduced-motion, ResizeObserver callback is
  *   rAF-batched.
+ *
+ * v3 changes:
+ * - The goo blob's underlying `.effect.filter::before` canvas (the black
+ *   box behind the colored pill, required for the blur+contrast "gooey"
+ *   trick) used a fixed `inset: -75px` bleed on every side. That canvas is
+ *   sized to match the ACTIVE li's bounding box, which on mobile is a tiny
+ *   icon-only button (~30px). A fixed 75px bleed around something that
+ *   small is proportionally huge and visually smears past the nav pill
+ *   into whatever sits nearby — in this app, the navbar logo text right
+ *   next to it, making it look "cut off". Desktop never showed this
+ *   because the active li there is a much bigger text+icon pill, so the
+ *   same 75px bleed stays comfortably inside the glass container.
+ *   Fixed by making the bleed a CSS custom property that's smaller on
+ *   narrow screens, so the blob keeps its liquid look without spilling
+ *   into neighboring UI. Particle bursts are untouched — they're a
+ *   separate mechanism and still travel their full distance on click.
  */
 const GooeyNav = ({
   items,
@@ -190,6 +206,17 @@ const GooeyNav = ({
             --color-2: #ff6b4a;
             --color-3: #ff3d3d;
             --color-4: #c81e3a;
+
+            /* Bleed radius of the goo blob's blur canvas (see v3 note
+               above). Smaller on narrow screens so it doesn't smear past
+               the nav pill onto neighboring UI like the logo text. */
+            --goo-bleed: 28px;
+          }
+          @media (min-width: 640px) {
+            .gooey-nav-root { --goo-bleed: 50px; }
+          }
+          @media (min-width: 768px) {
+            .gooey-nav-root { --goo-bleed: 75px; }
           }
           .gooey-nav-glass {
             background: linear-gradient(135deg, rgba(255,145,66,0.14), rgba(255,61,61,0.10));
@@ -211,7 +238,7 @@ const GooeyNav = ({
           .effect.filter::before {
             content: "";
             position: absolute;
-            inset: -75px;
+            inset: calc(-1 * var(--goo-bleed, 75px));
             z-index: -2;
             background: black;
           }

@@ -105,12 +105,12 @@ export default function Footer() {
                         className="flex items-center gap-2 text-xs text-neutral-500 transition-colors hover:text-amber-400"
                     >
                         <span>Crafted by</span>
-                        <span className="flex items-center gap-1.5 font-medium text-neutral-300">
+                        <span className="relative items-center gap-1.5 font-medium text-neutral-300">
                             <Image
                                 src="/images/silverloft.png"
                                 alt=""
-                                width={35}
-                                height={40}
+                                fill
+                                sizes="(max-width: 768px) 120px, 200px"
                                 className="object-contain rounded-full shadow-[0_0_8px_rgba(255,220,0,0.9),0_0_18px_rgba(255,193,7,0.8),0_0_32px_rgba(255,70,0,0.75),0_0_55px_rgba(220,0,0,0.55)]"
                             />
                             SilverLoft
